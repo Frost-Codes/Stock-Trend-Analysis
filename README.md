@@ -2,5 +2,5 @@
 
 🐍Python Project🐍
 
-📌An LSTM model for stock trend prediction
-📌Select stock tickerand an analysis will be genereted
+📌Uses an LSTM model for stock trend prediction
+📌Select stock ticker: an analysis and trend prediction will be genereted
