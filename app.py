@@ -18,6 +18,12 @@ symbol = st.selectbox('Select Symbol', ['GC=F', 'EURUSD=X', 'GOOG', 'AMZN', 'GBP
 data = yf.download(symbol, period='1mo', interval='1h', auto_adjust=True)
 
 if len(data != 0):
+    last = data.tail().iloc[-1]
+    second_last = data.tail().iloc[-2]
+    column1, column2, column3 = st.columns(3)
+    column1.metric('HIGH', str(round(last['High'], 4)), str(round(last['High'] - second_last['High'], 4)))
+    column2.metric('LOW', str(round(last['Low'], 4)), str(round(last['Low'] - second_last['Low'], 4)))
+    column3.metric('CLOSE', str(round(last['Close'], 4)), str(round(last['Close'] - second_last['Close'], 4)))
     st.subheader(f'{symbol} 1 hour timeframe analysis')
     st.write(data.describe())
 
