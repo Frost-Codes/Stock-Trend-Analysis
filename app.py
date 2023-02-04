@@ -5,21 +5,39 @@ import streamlit as st
 import yfinance as yf
 from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
+from main import trader
 import statistics
 import datetime
+import fxcmpy
+import socketio
+
 
 start = datetime.datetime(2012, 1, 1)
 end = datetime.datetime.today()
+api_logs = './data/api_logs.log'
+# access_token = '6a86b7d8cf1ad038e444db321ac95fe7279c607f'
+
+with open(api_logs, 'a') as file:
+    file.write(str(datetime.datetime.now()) + '\n\n')
+
+# trader = fxcmpy.fxcmpy(access_token=access_token, log_level='error', log_file=api_logs)
 
 st.set_page_config(page_title='Stocks', page_icon='💹')
 st.header('ML Stock Trend Prediction')
 
-symbol = st.selectbox('Select Symbol', ['GC=F', 'EURUSD=X', 'GOOG', 'AMZN', 'GBPUSD=X'])
-data = yf.download(symbol, period='1mo', interval='1h', auto_adjust=True)
+symbol = st.selectbox('Select Symbol', ['XAU/USD', 'BTC/USD', 'EUR/USD', 'NZD/USD', 'US30', 'GBP/USD'])
+data = trader.get_candles(symbol, period='H1', number=1000)
+data['Close'] = (data['bidclose'] + data['askclose']) / 2
+
+# data = yf.download(symbol, period='1mo', interval='1h', auto_adjust=True)
 
 if len(data != 0):
     last = data.tail().iloc[-1]
+    last['High'] = (last['bidhigh'] + last['askhigh']) / 2
+    last['Low'] = (last['bidlow'] + last['asklow']) / 2
     second_last = data.tail().iloc[-2]
+    second_last['High'] = (second_last['bidhigh'] + second_last['askhigh']) / 2
+    second_last['Low'] = (second_last['bidlow'] + second_last['asklow']) / 2
     column1, column2, column3 = st.columns(3)
     column1.metric('HIGH', str(round(last['High'], 4)), str(round(last['High'] - second_last['High'], 4)))
     column2.metric('LOW', str(round(last['Low'], 4)), str(round(last['Low'] - second_last['Low'], 4)))
@@ -30,7 +48,8 @@ if len(data != 0):
 # doing some clean up
 try:
     data = data.reset_index()
-    data.drop(['Datetime', 'Open', 'High', 'Low', 'Volume'], axis=1, inplace=True)
+    data.drop(['date', 'bidopen', 'bidclose', 'bidhigh', 'bidlow', 'askopen', 'askclose',
+               'askhigh', 'asklow', 'tickqty'], axis=1, inplace=True)
     # plotting close price
     st.subheader(f'{symbol} 1 hour timeframe close price')
     figure1 = plt.figure(figsize=(10, 6))
