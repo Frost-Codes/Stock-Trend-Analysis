@@ -26,7 +26,7 @@ st.set_page_config(page_title='Stocks', page_icon='💹')
 st.header('ML Stock Trend Prediction')
 
 symbol = st.selectbox('Select Symbol', ['XAU/USD', 'BTC/USD', 'EUR/USD', 'NZD/USD', 'US30', 'GBP/USD'])
-data = trader.get_candles(symbol, period='H1', number=1000)
+data = trader.get_candles(symbol, period='H1', number=750)
 data['Close'] = (data['bidclose'] + data['askclose']) / 2
 
 # data = yf.download(symbol, period='1mo', interval='1h', auto_adjust=True)
