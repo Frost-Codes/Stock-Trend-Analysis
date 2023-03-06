@@ -34,7 +34,7 @@ credentials = {'usernames': {}}
 for index in range(len(emails)):
     credentials['usernames'][user_names[index]] = {'name': emails[index], 'password': passwords[index]}
 
-authenticator = stauth.Authenticate(credentials, cookie_name='MLStosks', key='abcdef', cookie_expiry_days=5)
+authenticator = stauth.Authenticate(credentials)
 email, authentication_status, user_name = authenticator.login('Login', 'main')
 info, info1 = st.columns(2)
 
