@@ -52,6 +52,13 @@ def get_user(email):
     return db.get(email)
 
 
+def validate_username(username):
+    pattern = "^[a-z]*$"
+    if re.match(pattern, username):
+        return True
+    return False
+
+
 def validate_email(email):
     pattern = "^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{1,3}$"
 
@@ -71,22 +78,25 @@ def sign_up():
         if email:
             if validate_email(email):
                 if email not in fetch_users_emails():
-                    if len(username) >= 2:
-                        if username not in fetch_usernames():
-                            if len(password) >= 6:
-                                if password == password2:
-                                    hashed_password = stauth.Hasher([password]).generate()
-                                    insert_user(email=email, username=username, password=hashed_password[0])
-                                    st.success('Account created Successfully')
-                                    st.balloons()
+                    if validate_username(username):
+                        if len(username) >= 2:
+                            if username not in fetch_usernames():
+                                if len(password) >= 6:
+                                    if password == password2:
+                                        hashed_password = stauth.Hasher([password]).generate()
+                                        insert_user(email=email, username=username, password=hashed_password[0])
+                                        st.success('Account created Successfully')
+                                        st.balloons()
+                                    else:
+                                        st.warning('Passwords do not match')
                                 else:
-                                    st.warning('Passwords do not match')
+                                    st.warning('Password should be at least 6 characters')
                             else:
-                                st.warning('Password should be at least 6 characters')
+                                st.warning('Username Already Exists')
                         else:
-                            st.warning('Username Already Exists')
+                            st.warning('Username too short')
                     else:
-                        st.warning('Username too short')
+                        st.warning('Invalid characters in Username')
                 else:
                     st.warning('Email Already Exists!!')
             else:
