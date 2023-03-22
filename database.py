@@ -27,7 +27,10 @@ def insert_user(email, username, password):
 
 
 def fetch_users_emails():
-    """Returns all users in database"""
+    """
+    Fetch user emails
+    :return List of user emails:
+    """
     emails = []
     users = db.fetch()
     for user in users.items:
@@ -36,6 +39,10 @@ def fetch_users_emails():
 
 
 def fetch_usernames():
+    """
+    Fetch all usernames in the database
+    :return: a list of usernames:
+    """
     names = []
     users = db.fetch()
     for user in users.items:
@@ -44,15 +51,28 @@ def fetch_usernames():
 
 
 def get_users():
+    """
+    Get all users in the database
+    :return: Dictionary of users
+    """
     return db.fetch().items
 
 
 def get_user(email):
-    """Returns a particular user if exits else None"""
+    """
+    Returns a particular user if exits else None
+    :param email:
+    :return User info:
+    """
     return db.get(email)
 
 
 def validate_username(username):
+    """
+    Checks if a username is valid upon sign up
+    :param username:
+    :return: True if username is valid else False
+    """
     pattern = "^[a-z]*$"
     if re.match(pattern, username):
         return True
@@ -60,6 +80,11 @@ def validate_username(username):
 
 
 def validate_email(email):
+    """
+    Checks if an email is valid
+    :param email:
+    :return: True if email is valid else False
+    """
     pattern = "^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{1,3}$"
 
     if re.match(pattern, email):
@@ -125,49 +150,3 @@ def login():
         col1, col2, col3, col4, col5 = st.columns(5)
         with col3:
             st.form_submit_button('Login')
-
-##############
-# users = get_users()
-# emails = []
-# passwords = []
-# user_names = []
-# for user in users:
-#     emails.append(user['key'])
-#     user_names.append(user['username'])
-#     passwords.append(user['password'])
-#
-# credentials = {'usernames': {}}
-# for index in range(len(emails)):
-#     credentials['usernames'][user_names[index]] = {'name': emails[index], 'password': passwords[index]}
-
-
-# authenticator = stauth.Authenticate(credentials, cookie_name='MLStosks', key='abcdef', cookie_expiry_days=5)
-#
-# authenticator.logout('Log out', 'main')
-#
-# ########
-#
-# email, authentication_status, user_name = authenticator.login('Login', 'main')
-#
-# if user_name:
-#     if user_name in user_names:
-#         if authentication_status:
-#             st.success('Logged in')
-#         elif not authentication_status:
-#             st.error('Incorrect Username/Password')
-#         elif authentication_status is None:
-#             st.warning('Please Enter your password')
-#     else:
-#         st.warning('Username does not exist, Please Sign up ')
-
-# print(authentication_status, email, user_name)
-# print(authenticator.credentials.items())
-# print(authenticator.username, authenticator.password)
-# print(st.session_state)
-# login()
-# sign_up()
-# print(get_users())
-# print(get_user('lynxian52@gmail.com')['password'])
-
-
-
