@@ -8,7 +8,7 @@ import statistics
 import datetime
 from plotly import express as px
 import streamlit_authenticator as stauth
-from database import users
+from database import get_users
 from database import sign_up
 from main import trader
 
@@ -21,7 +21,7 @@ with open(api_logs, 'a') as file:
 
 st.set_page_config(page_title='Stocks', page_icon='💹', initial_sidebar_state='collapsed')
 
-
+users = get_users()
 emails = []
 passwords = []
 user_names = []

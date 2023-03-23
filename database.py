@@ -151,6 +151,3 @@ def login():
         col1, col2, col3, col4, col5 = st.columns(5)
         with col3:
             st.form_submit_button('Login')
-
-
-users = get_users()
