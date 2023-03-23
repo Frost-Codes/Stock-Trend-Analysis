@@ -55,7 +55,8 @@ def get_users():
     Get all users in the database
     :return: Dictionary of users
     """
-    return db.fetch().items
+    users = db.fetch()
+    return users.items
 
 
 def get_user(email):
@@ -150,3 +151,6 @@ def login():
         col1, col2, col3, col4, col5 = st.columns(5)
         with col3:
             st.form_submit_button('Login')
+
+
+print(get_users())
