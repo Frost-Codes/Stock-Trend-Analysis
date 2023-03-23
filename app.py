@@ -11,6 +11,7 @@ import streamlit_authenticator as stauth
 from database import get_users
 from database import sign_up
 from main import trader
+import http
 
 
 api_logs = './data/api_logs.log'
@@ -21,10 +22,13 @@ with open(api_logs, 'a') as file:
 
 st.set_page_config(page_title='Stocks', page_icon='💹', initial_sidebar_state='collapsed')
 
-users = get_users()
-emails = []
-passwords = []
-user_names = []
+try:
+    users = get_users()
+    emails = []
+    passwords = []
+    user_names = []
+except http.client.CannotSendRequest:
+    st.write('Refresh Page')
 for user in users:
     emails.append(user['key'])
     user_names.append(user['username'])
