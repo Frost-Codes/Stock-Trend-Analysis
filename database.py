@@ -153,4 +153,4 @@ def login():
             st.form_submit_button('Login')
 
 
-print(get_users())
+users = get_users()
