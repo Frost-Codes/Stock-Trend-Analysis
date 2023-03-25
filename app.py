@@ -53,7 +53,7 @@ try:
 
                 st.header('ML Stock Trend Prediction')
 
-                symbol = st.selectbox('Select Symbol', ['XAU/USD', 'BTC/USD', 'EUR/USD', 'NZD/USD', 'US30', 'GBP/USD'])
+                symbol = st.selectbox('Select Symbol', ['XAU/USD', 'BTC/USD', 'EUR/USD', 'NZD/USD', 'US30', 'GBP/USD', 'UKOil', 'USOil'])
 
                 # logout
                 authenticator.logout('Log out', 'sidebar')
